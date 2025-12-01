@@ -1,0 +1,38 @@
+body {
+  width: 300px;
+  padding: 12px;
+  font-family: sans-serif;
+  color: #2A6049;
+  background-color: #fbf9f1;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+#list {
+  margin-top: 10px;
+}
+
+.item {
+  background: #f0f0f0;
+  padding: 12px;
+  margin-bottom: 6px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.del-btn {
+  background: #ff4d4d;
+  color: #ffffff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.del-btn:hover {
+  background: #e60000;
+}
