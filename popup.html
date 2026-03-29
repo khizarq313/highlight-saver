@@ -1,12 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Highlight Saver Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h2>Highlights</h2>
+    <div class="hl-app">
+      <header class="hl-header">
+        <div class="hl-header-top">
+          <div class="hl-brand">
+            <div class="hl-brand-mark" aria-hidden="true">✦</div>
+            <div class="hl-brand-copy">
+              <h1>Highlight Saver Pro</h1>
+              <p id="highlight-count" class="hl-subtitle" aria-live="polite">
+                0 highlights saved
+              </p>
+            </div>
+          </div>
 
-    <div id="list"></div>
+          <button
+            id="settings-toggle"
+            class="hl-icon-btn"
+            type="button"
+            aria-label="Open settings"
+            title="Settings"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 8.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Zm8 3.25-.93-.54a7.78 7.78 0 0 0-.58-1.39l.53-.95a.9.9 0 0 0-.15-1.07l-1.92-1.92a.9.9 0 0 0-1.07-.15l-.95.53a7.8 7.8 0 0 0-1.39-.58L13 4a.9.9 0 0 0-.88-.75h-2.24A.9.9 0 0 0 9 4l-.12 1.06a7.8 7.8 0 0 0-1.39.58l-.95-.53a.9.9 0 0 0-1.07.15L3.55 7.18a.9.9 0 0 0-.15 1.07l.53.95c-.25.45-.45.91-.58 1.39L2.25 12a.9.9 0 0 0 0 1.76l1.06.12c.13.48.33.94.58 1.39l-.53.95a.9.9 0 0 0 .15 1.07l1.92 1.92a.9.9 0 0 0 1.07.15l.95-.53c.45.25.91.45 1.39.58L9 20a.9.9 0 0 0 .88.75h2.24A.9.9 0 0 0 13 20l.12-1.06c.48-.13.94-.33 1.39-.58l.95.53a.9.9 0 0 0 1.07-.15l1.92-1.92a.9.9 0 0 0 .15-1.07l-.53-.95c.25-.45.45-.91.58-1.39L20 13.76a.9.9 0 0 0 0-1.76Z"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="hl-header-bottom">
+          <div id="header-count-chip" class="hl-count-chip">0 saved</div>
+
+          <label class="hl-search" for="search-input">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M10.5 4.75a5.75 5.75 0 1 0 0 11.5 5.75 5.75 0 0 0 0-11.5Zm8.78 13.47-3.24-3.24"
+              />
+            </svg>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Search highlights"
+              aria-label="Search highlights"
+              spellcheck="false"
+            />
+          </label>
+        </div>
+      </header>
+
+      <div
+        id="filter-bar"
+        class="hl-filter-bar"
+        aria-label="Highlight filters"
+      ></div>
+
+      <div
+        id="inline-feedback"
+        class="hl-inline-feedback"
+        hidden
+        aria-live="polite"
+      ></div>
+
+      <main class="hl-content">
+        <div id="empty-state" class="hl-empty-state" hidden>
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path
+              d="M19 10h26a7 7 0 0 1 7 7v35.5c0 1.94-2.19 3.08-3.78 1.95L32 43.9 15.78 54.45C14.19 55.58 12 54.44 12 52.5V17a7 7 0 0 1 7-7Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="3"
+            />
+            <path
+              d="M24 22h16M24 30h16"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="3"
+            />
+          </svg>
+          <h2>No highlights yet</h2>
+          <p>Select text on any page to save your first highlight.</p>
+          <div class="hl-empty-shortcut">Press Alt+H to open</div>
+        </div>
+
+        <div id="highlights-list" class="hl-list" aria-live="polite"></div>
+      </main>
+
+      <div id="ai-result" class="hl-ai-result" hidden>
+        <div class="hl-ai-result-head">
+          <div>
+            <p class="hl-ai-kicker">✨ AI Summary</p>
+            <p id="ai-result-context" class="hl-ai-context"></p>
+          </div>
+
+          <button
+            id="ai-result-close"
+            class="hl-icon-btn hl-ai-close"
+            type="button"
+            aria-label="Close AI summary"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6 18 18M18 6 6 18" />
+            </svg>
+          </button>
+        </div>
+
+        <p id="ai-result-text" class="hl-ai-result-text"></p>
+      </div>
+
+      <footer class="hl-footer">
+        <button
+          id="summarize-all-btn"
+          class="hl-primary-btn"
+          type="button"
+          aria-label="Summarize all highlights"
+          title="AI summary for your recent highlights"
+        >
+          ✨ Summarize All
+        </button>
+
+        <div class="hl-footer-actions">
+          <button
+            id="export-btn"
+            class="hl-icon-btn hl-footer-icon"
+            type="button"
+            aria-label="Export highlights"
+            title="Export highlights"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 3v11m0 0 4-4m-4 4-4-4M5 15.5V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2.5"
+              />
+            </svg>
+          </button>
+
+          <button
+            id="clear-all-btn"
+            class="hl-footer-text-btn"
+            type="button"
+            aria-label="Clear all highlights"
+          >
+            Clear All
+          </button>
+
+          <div id="clear-confirm" class="hl-clear-confirm" hidden>
+            <span>Are you sure?</span>
+            <button id="clear-confirm-yes" type="button">Yes, clear</button>
+            <button id="clear-confirm-no" type="button">Cancel</button>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <aside
+      id="settings-panel"
+      class="hl-settings-panel"
+      aria-hidden="true"
+    >
+      <div class="hl-settings-header">
+        <button
+          id="settings-close"
+          class="hl-icon-btn"
+          type="button"
+          aria-label="Close settings"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 18 9 12l6-6" />
+          </svg>
+        </button>
+        <h2>Settings</h2>
+      </div>
+
+      <div class="hl-settings-body">
+        <p class="hl-settings-copy">
+          Manage local preferences and configure AI summaries.
+        </p>
+
+        <div
+          id="settings-message"
+          class="hl-settings-message"
+          hidden
+          aria-live="polite"
+        ></div>
+
+        <section class="hl-settings-section">
+          <label class="hl-field-label" for="api-key-input">
+            OpenAI API Key
+          </label>
+
+          <div class="hl-input-wrap">
+            <input
+              id="api-key-input"
+              type="password"
+              placeholder="sk-..."
+              aria-label="OpenAI API key"
+              autocomplete="off"
+              spellcheck="false"
+            />
+
+            <button
+              id="toggle-api-key"
+              class="hl-icon-btn hl-input-icon"
+              type="button"
+              aria-label="Show API key"
+              title="Show API key"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Zm9.5-3.25a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <p class="hl-field-note">
+            Your key is stored locally only, never sent anywhere except OpenAI.
+          </p>
+
+          <button
+            id="save-key-btn"
+            class="hl-primary-btn hl-save-key-btn"
+            type="button"
+          >
+            Save Key
+          </button>
+        </section>
+
+        <section class="hl-settings-section">
+          <p class="hl-field-label">Keyboard Hint</p>
+          <div class="hl-shortcut-hint">
+            <span>Quick access</span>
+            <code>Press Alt+H to open</code>
+          </div>
+        </section>
+      </div>
+    </aside>
+
+    <div id="loading-overlay" class="hl-loading-overlay" hidden>
+      <div class="hl-spinner" aria-hidden="true"></div>
+      <p id="loading-message">Thinking through your highlights...</p>
+    </div>
 
     <script src="popup.js"></script>
   </body>
